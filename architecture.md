@@ -37,7 +37,6 @@ frontend/
 │   ├── App.css
 │   ├── index.css
 │   └── main.tsx
-├── .gitignore
 ├── eslint.config.js
 ├── index.html
 ├── jest.config.ts
@@ -56,7 +55,6 @@ ui/
 │   ├── Form/
 │   └── index.ts
 ├── package.json
-├── .gitignore
 ├── eslint.config.js
 ├── jest.config.ts
 ├── vite.config.ts
