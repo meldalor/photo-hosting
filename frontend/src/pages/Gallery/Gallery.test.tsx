@@ -47,6 +47,10 @@ describe('Gallery', () => {
     )
 
     expect(screen.getByText('Моя Галерея')).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(imageService.getImagesByUser).toHaveBeenCalled()
+    })
   })
 
   test('shows loading state', () => {
@@ -86,6 +90,9 @@ describe('Gallery', () => {
         userId: 1,
         file: new File([''], 'test1.jpg', { type: 'image/jpeg' }),
         filename: 'test1.jpg',
+        fileSize: 1024,
+        width: 1920,
+        height: 1080,
         createdAt: new Date()
       },
       {
@@ -93,6 +100,9 @@ describe('Gallery', () => {
         userId: 1,
         file: new File([''], 'test2.jpg', { type: 'image/jpeg' }),
         filename: 'test2.jpg',
+        fileSize: 2048,
+        width: 1920,
+        height: 1080,
         createdAt: new Date()
       }
     ]
@@ -120,6 +130,9 @@ describe('Gallery', () => {
         userId: 1,
         file: new File([''], 'test.jpg', { type: 'image/jpeg' }),
         filename: 'test.jpg',
+        fileSize: 1024,
+        width: 1920,
+        height: 1080,
         createdAt: new Date()
       }
     ]
@@ -156,6 +169,9 @@ describe('Gallery', () => {
         userId: 1,
         file: new File([''], 'test.jpg', { type: 'image/jpeg' }),
         filename: 'test.jpg',
+        fileSize: 1024,
+        width: 1920,
+        height: 1080,
         createdAt: new Date()
       }
     ]
@@ -232,6 +248,9 @@ describe('Gallery', () => {
         userId: 1,
         file: new File([''], 'test.jpg', { type: 'image/jpeg' }),
         filename: 'test.jpg',
+        fileSize: 1024,
+        width: 1920,
+        height: 1080,
         createdAt: new Date()
       }
     ]
@@ -264,11 +283,17 @@ describe('Gallery', () => {
   })
 
   test('does not delete image when id is undefined', async () => {
+    const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {})
+
     const mockImages = [
       {
+        id: undefined,
         userId: 1,
         file: new File([''], 'test.jpg', { type: 'image/jpeg' }),
         filename: 'test.jpg',
+        fileSize: 1024,
+        width: 1920,
+        height: 1080,
         createdAt: new Date()
       }
     ]
@@ -292,5 +317,44 @@ describe('Gallery', () => {
     fireEvent.click(deleteButtons[0])
 
     expect(imageService.deleteImage).not.toHaveBeenCalled()
+
+    consoleError.mockRestore()
+  })
+
+  test('navigates to photo detail when image clicked', async () => {
+    const mockImages = [
+      {
+        id: 1,
+        userId: 1,
+        file: new File([''], 'test.jpg', { type: 'image/jpeg' }),
+        filename: 'test.jpg',
+        fileSize: 1024,
+        width: 1920,
+        height: 1080,
+        createdAt: new Date()
+      }
+    ]
+
+    ;(imageService.getImagesByUser as jest.Mock).mockResolvedValue(mockImages)
+
+    render(
+      <BrowserRouter>
+        <SessionContext.Provider value={mockContextValue}>
+          <Gallery />
+        </SessionContext.Provider>
+      </BrowserRouter>
+    )
+
+    await waitFor(() => {
+      expect(screen.getByText('test.jpg')).toBeInTheDocument()
+    })
+
+    const imageCards = screen.getAllByRole('img')
+
+    fireEvent.click(imageCards[0])
+
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith('/photo/1')
+    })
   })
 })

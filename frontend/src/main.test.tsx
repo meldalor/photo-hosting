@@ -1,8 +1,14 @@
 import { StrictMode } from 'react'
 
-import * as ReactDOM from 'react-dom/client'
+const mockRender = jest.fn()
+const mockCreateRoot = jest.fn(() => ({
+  render: mockRender,
+  unmount: jest.fn(),
+}))
 
-import App from './App'
+jest.mock('react-dom/client', () => ({
+  createRoot: mockCreateRoot,
+}))
 
 describe('main.tsx', () => {
   beforeEach(() => {
@@ -11,13 +17,7 @@ describe('main.tsx', () => {
   })
 
   it('should render App component in StrictMode', async () => {
-    const mockRender = jest.fn()
-    const mockCreateRoot = jest.fn(() => ({
-      render: mockRender,
-      unmount: jest.fn(),
-    }))
-
-    jest.spyOn(ReactDOM, 'createRoot').mockImplementation(mockCreateRoot)
+    const { default: App } = await import('./App')
 
     await import('./main.tsx')
 

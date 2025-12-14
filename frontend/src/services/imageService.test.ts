@@ -15,12 +15,69 @@ jest.mock('../db', () => ({
 describe('imageService', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.spyOn(imageService, 'getImageDimensions').mockResolvedValue({ width: 1920, height: 1080 })
     global.URL.createObjectURL = jest.fn(() => 'blob:mock-url')
     global.URL.revokeObjectURL = jest.fn()
   })
 
+  describe('getImageDimensions', () => {
+    test('resolves with correct dimensions on successful load', async () => {
+      const mockFile = new File([''], 'test.jpg', { type: 'image/jpeg' })
+
+      // Mock Image constructor
+      const mockImage = {
+        width: 1920,
+        height: 1080,
+        onload: null as (() => void) | null,
+        onerror: null as (() => void) | null,
+        src: ''
+      }
+
+      global.Image = jest.fn(() => mockImage) as unknown as typeof Image
+
+      const dimensionsPromise = imageService.getImageDimensions(mockFile)
+
+      // Trigger onload
+      if (mockImage.onload) {
+        mockImage.onload()
+      }
+
+      const result = await dimensionsPromise
+
+      expect(result).toEqual({ width: 1920, height: 1080 })
+      expect(global.URL.createObjectURL).toHaveBeenCalledWith(mockFile)
+      expect(global.URL.revokeObjectURL).toHaveBeenCalledWith('blob:mock-url')
+    })
+
+    test('rejects with error when image fails to load', async () => {
+      const mockFile = new File([''], 'test.jpg', { type: 'image/jpeg' })
+
+      const mockImage = {
+        width: 0,
+        height: 0,
+        onload: null as (() => void) | null,
+        onerror: null as (() => void) | null,
+        src: ''
+      }
+
+      global.Image = jest.fn(() => mockImage) as unknown as typeof Image
+
+      const dimensionsPromise = imageService.getImageDimensions(mockFile)
+
+      // Trigger onerror
+      if (mockImage.onerror) {
+        mockImage.onerror()
+      }
+
+      await expect(dimensionsPromise).rejects.toThrow('Failed to load image')
+      expect(global.URL.revokeObjectURL).toHaveBeenCalledWith('blob:mock-url')
+    })
+  })
+
   describe('uploadImage', () => {
+    beforeEach(() => {
+      jest.spyOn(imageService, 'getImageDimensions').mockResolvedValue({ width: 1920, height: 1080 })
+    })
+
     test('uploads image successfully', async () => {
       const file = new File(['content'], 'test.jpg', { type: 'image/jpeg' })
 

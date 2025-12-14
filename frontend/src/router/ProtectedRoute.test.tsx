@@ -55,4 +55,27 @@ describe('ProtectedRoute', () => {
     expect(screen.getByText('Protected Content')).toBeInTheDocument()
     expect(screen.queryByText(/Navigate to/)).not.toBeInTheDocument()
   })
+
+  test('shows loader when loading', () => {
+    const mockContextValue = {
+      session: null,
+      loading: true,
+      login: jest.fn(),
+      logout: jest.fn(),
+      register: jest.fn()
+    }
+
+    const { container } = render(
+      <BrowserRouter>
+        <SessionContext.Provider value={mockContextValue}>
+          <ProtectedRoute>
+            <div>Protected Content</div>
+          </ProtectedRoute>
+        </SessionContext.Provider>
+      </BrowserRouter>
+    )
+
+    expect(container.querySelector('.loader')).toBeInTheDocument()
+    expect(screen.queryByText('Protected Content')).not.toBeInTheDocument()
+  })
 })
