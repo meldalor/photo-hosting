@@ -7,6 +7,7 @@ interface Session {
 
 interface SessionContextType {
   session: Session | null
+  loading: boolean
   login: (email: string, password: string) => Promise<void>
   logout: () => void
   register: (email: string, password: string) => Promise<void>
@@ -18,7 +19,7 @@ export const useSession = () => {
   const context = useContext(SessionContext)
 
   if (!context) {
-    throw new Error('useSession must be used within SessionProvider')
+    throw new Error('useSession должен использоваться внутри SessionProvider')
   }
 
   return context

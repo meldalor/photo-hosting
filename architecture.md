@@ -9,7 +9,6 @@ frontend/
 ├── src/
 │   ├── components/
 │   │   ├── Header/
-│   │   ├── UploadForm/
 │   │   └── Loader/
 │   ├── pages/
 │   │   ├── Login/

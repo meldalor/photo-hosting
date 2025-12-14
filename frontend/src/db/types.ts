@@ -10,5 +10,8 @@ export interface Image {
   userId: number
   file: Blob
   filename: string
+  fileSize: number
+  width: number
+  height: number
   createdAt: Date
 }

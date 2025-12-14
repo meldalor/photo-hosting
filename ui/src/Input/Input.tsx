@@ -1,3 +1,5 @@
+import './Input.css'
+
 interface InputProps {
   type?: 'text' | 'email' | 'password' | 'file'
   value?: string
@@ -19,6 +21,7 @@ export const Input = ({
 }: InputProps) => {
   return (
     <input
+      className="input"
       type={type}
       value={value}
       onChange={onChange}
