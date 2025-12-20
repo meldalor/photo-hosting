@@ -156,32 +156,38 @@ npm run preview
 - Возможность делиться фотографиями с другими пользователями
 
 ### Cтраницы:
-/ (главная)
+#### / (главная)
 ![alt text](./README-imgs/image.png)
 ![alt text](./README-imgs/image-1.png)
 ![alt text](./README-imgs/image-2.png)
 
-/gallery
+#### /register
+![alt text](./README-imgs/image-14.png)
+
+#### /login
+![alt text](./README-imgs/image-15.png)
+
+#### /gallery
 ![alt text](./README-imgs/image-3.png)
 
-/upload
+#### /upload
 ![alt text](./README-imgs/image-4.png)
 ![alt text](./README-imgs/image-5.png)
 ![alt text](./README-imgs/image-6.png)
 
-/favorites
+#### /favorites
 ![alt text](./README-imgs/image-7.png)
 
-/photo/{id} (если фото открыто не напрямую по ссылке, то будет возможность перелистывать фотокарточки)
+#### /photo/{id} (если фото открыто не напрямую по ссылке, то будет возможность перелистывать фотокарточки)
 ![alt text](./README-imgs/image-8.png)
 ![alt text](./README-imgs/image-9.png)
 
-/albums
+#### /albums
 ![alt text](./README-imgs/image-10.png)
 
-/albums/{id} + модальное окно добавления фотографии в альбом
+#### /albums/{id} + модальное окно добавления фотографии в альбом
 ![alt text](./README-imgs/image-11.png)
 ![alt text](./README-imgs/image-12.png)
 
-а также есть темная тема и тема повышенной контрастности. Пример темной темы:
+##### а также есть темная тема и тема повышенной контрастности. Пример темной темы:
 ![alt text](./README-imgs/image-13.png)
