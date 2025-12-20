@@ -155,7 +155,7 @@ npm run preview
 ### Шеринг
 - Возможность делиться фотографиями с другими пользователями
 
-страницы:
+### Cтраницы:
 / (главная)
 ![alt text](./README-imgs/image.png)
 ![alt text](./README-imgs/image-1.png)
