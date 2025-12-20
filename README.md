@@ -172,7 +172,7 @@ npm run preview
 /favorites
 ![alt text](./README-imgs/image-7.png)
 
-/photo/{id} (если не направямую по ссылке, то будет возможность перелистывать фотокарточки)
+/photo/{id} (если фото открыто не напрямую по ссылке, то будет возможность перелистывать фотокарточки)
 ![alt text](./README-imgs/image-8.png)
 ![alt text](./README-imgs/image-9.png)
 
