@@ -1,6 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { ProtectedRoute } from './ProtectedRoute'
+import { AlbumDetail } from '../pages/AlbumDetail/AlbumDetail'
+import { Albums } from '../pages/Albums/Albums'
+import { Favorites } from '../pages/Favorites/Favorites'
 import { Gallery } from '../pages/Gallery/Gallery'
 import { Home } from '../pages/Home/Home'
 import { Login } from '../pages/Login/Login'
@@ -15,6 +18,10 @@ export const AppRouter = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        <Route path="/photo/:id" element={<PhotoDetail />} />
+        <Route path="/albums/:id" element={<AlbumDetail />} />
+
         <Route
           path="/gallery"
           element={
@@ -32,10 +39,18 @@ export const AppRouter = () => {
           }
         />
         <Route
-          path="/photo/:id"
+          path="/favorites"
           element={
             <ProtectedRoute>
-              <PhotoDetail />
+              <Favorites />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/albums"
+          element={
+            <ProtectedRoute>
+              <Albums />
             </ProtectedRoute>
           }
         />

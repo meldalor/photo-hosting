@@ -1,22 +1,53 @@
-interface Session {
-  userId: number
-  email: string
+import { Session } from '../types'
+
+const TOKEN_KEY = 'token'
+
+function decodeToken(token: string): Session | null {
+  try {
+    const base64Url = token.split('.')[1]
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    )
+
+    const payload = JSON.parse(jsonPayload)
+
+    return {
+      userId: payload.userId,
+      email: payload.email
+    }
+  } catch {
+    return null
+  }
 }
 
-const SESSION_KEY = 'session'
-
 export const sessionService = {
-  saveSession(session: Session): void {
-    localStorage.setItem(SESSION_KEY, JSON.stringify(session))
+  saveToken(token: string): void {
+    localStorage.setItem(TOKEN_KEY, token)
+  },
+
+  getToken(): string | null {
+    return localStorage.getItem(TOKEN_KEY)
   },
 
   getSession(): Session | null {
-    const data = localStorage.getItem(SESSION_KEY)
+    const token = this.getToken()
 
-    return data ? JSON.parse(data) : null
+    if (!token) {
+      return null
+    }
+
+    return decodeToken(token)
   },
 
   clearSession(): void {
-    localStorage.removeItem(SESSION_KEY)
+    localStorage.removeItem(TOKEN_KEY)
+  },
+
+  isAuthenticated(): boolean {
+    return !!this.getToken()
   }
 }

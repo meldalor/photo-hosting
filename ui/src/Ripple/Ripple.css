@@ -1,0 +1,39 @@
+
+
+.md3-ripple-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.md3-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--md3-ripple-color, currentColor);
+  opacity: 0.3;
+  transform: scale(0);
+  animation: md3-ripple-animation var(--md3-ripple-duration, 600ms) var(--md-sys-motion-easing-standard);
+  pointer-events: none;
+}
+
+@keyframes md3-ripple-animation {
+  0% {
+    transform: scale(0);
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .md3-ripple {
+    animation: none;
+  }
+}

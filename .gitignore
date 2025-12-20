@@ -50,6 +50,7 @@ lerna-debug.log*
 *.temp
 .tmp/
 .temp/
+NUL
 
 # OS files
 Thumbs.db
