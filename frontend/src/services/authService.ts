@@ -1,23 +1,42 @@
 import { db } from '../db'
+import { crypto } from '../utils/crypto'
 
 import type { User } from '../db/types'
 
 export const authService = {
   async login(email: string, password: string): Promise<User | null> {
-    console.log('Auth service login stub', email, password)
+    const user = await this.getUserByEmail(email)
 
-    return null
-  },
+    if (!user) {
+      return null
+    }
 
-  async register(email: string, password: string): Promise<User> {
-    console.log('Auth service register stub', email, password)
-    const user: User = {
-      email,
-      passwordHash: password,
-      createdAt: new Date()
+    const isPasswordValid = await crypto.verifyPassword(password, user.passwordHash)
+
+    if (!isPasswordValid) {
+      return null
     }
 
     return user
+  },
+
+  async register(email: string, password: string): Promise<User> {
+    const existingUser = await this.getUserByEmail(email)
+
+    if (existingUser) {
+      throw new Error('Пользователь с таким email уже существует')
+    }
+
+    const passwordHash = await crypto.hashPassword(password)
+    const user: User = {
+      email,
+      passwordHash,
+      createdAt: new Date()
+    }
+
+    const id = await db.users.add(user)
+
+    return { ...user, id: id as number }
   },
 
   async getUserByEmail(email: string): Promise<User | undefined> {

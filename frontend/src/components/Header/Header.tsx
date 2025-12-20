@@ -11,7 +11,7 @@ export const Header = () => {
 
   return (
     <header>
-      <h2>Photo Gallery Header</h2>
+      <h2>Фото Галерея</h2>
       {session && (
         <div>
           <nav>
@@ -20,20 +20,20 @@ export const Header = () => {
               disabled={location.pathname === '/gallery'}
               variant={location.pathname === '/gallery' ? 'secondary' : 'primary'}
             >
-              Gallery
+              Галерея
             </Button>
             <Button
               onClick={() => navigate('/upload')}
               disabled={location.pathname === '/upload'}
               variant={location.pathname === '/upload' ? 'secondary' : 'primary'}
             >
-              Upload
+              Загрузить
             </Button>
           </nav>
           <div>
-            <span>User: {session.email}</span>
+            <span>Пользователь: {session.email}</span>
             <Button onClick={logout} variant="danger">
-              Logout
+              Выход
             </Button>
           </div>
         </div>

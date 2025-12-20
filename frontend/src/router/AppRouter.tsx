@@ -4,6 +4,7 @@ import { ProtectedRoute } from './ProtectedRoute'
 import { Gallery } from '../pages/Gallery/Gallery'
 import { Home } from '../pages/Home/Home'
 import { Login } from '../pages/Login/Login'
+import { PhotoDetail } from '../pages/PhotoDetail/PhotoDetail'
 import { Register } from '../pages/Register/Register'
 import { Upload } from '../pages/Upload/Upload'
 
@@ -27,6 +28,14 @@ export const AppRouter = () => {
           element={
             <ProtectedRoute>
               <Upload />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/photo/:id"
+          element={
+            <ProtectedRoute>
+              <PhotoDetail />
             </ProtectedRoute>
           }
         />

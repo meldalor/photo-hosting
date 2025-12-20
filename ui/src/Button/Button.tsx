@@ -1,3 +1,5 @@
+import './Button.css'
+
 interface ButtonProps {
   children: React.ReactNode
   onClick?: () => void
@@ -14,7 +16,7 @@ export const Button = ({
   disabled = false
 }: ButtonProps) => {
   return (
-    <button type={type} onClick={onClick} disabled={disabled} data-variant={variant}>
+    <button className="button" type={type} onClick={onClick} disabled={disabled} data-variant={variant}>
       {children}
     </button>
   )

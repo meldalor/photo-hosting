@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 
 import { SessionContext } from './SessionContext'
+import { authService } from '../services/authService'
+import { sessionService } from '../services/sessionService'
 
 interface Session {
   userId: number
@@ -12,31 +14,54 @@ interface SessionProviderProps {
 }
 
 export const SessionProvider = ({ children }: SessionProviderProps) => {
-  const [session, setSession] = useState<Session | null>(null)
+  const [session, setSession] = useState<Session | null>(() => {
+    return sessionService.getSession()
+  })
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const savedSession = localStorage.getItem('session')
-
-    if (savedSession) {
-      setSession(JSON.parse(savedSession))
-    }
+    setLoading(false)
   }, [])
 
   const login = async (email: string, password: string) => {
-    console.log('Login stub:', email, password)
+    const user = await authService.login(email, password)
+
+    if (!user || !user.id) {
+      throw new Error('Неверный email или пароль')
+    }
+
+    const newSession: Session = {
+      userId: user.id,
+      email: user.email
+    }
+
+    setSession(newSession)
+    sessionService.saveSession(newSession)
   }
 
   const logout = () => {
     setSession(null)
-    localStorage.removeItem('session')
+    sessionService.clearSession()
   }
 
   const register = async (email: string, password: string) => {
-    console.log('Register stub:', email, password)
+    const user = await authService.register(email, password)
+
+    if (!user.id) {
+      throw new Error('Ошибка регистрации')
+    }
+
+    const newSession: Session = {
+      userId: user.id,
+      email: user.email
+    }
+
+    setSession(newSession)
+    sessionService.saveSession(newSession)
   }
 
   return (
-    <SessionContext.Provider value={{ session, login, logout, register }}>
+    <SessionContext.Provider value={{ session, loading, login, logout, register }}>
       {children}
     </SessionContext.Provider>
   )

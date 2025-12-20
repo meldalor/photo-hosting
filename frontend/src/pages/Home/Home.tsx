@@ -8,13 +8,13 @@ export const Home = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Photo Hosting</h1>
+      <h1>Фото Хостинг</h1>
       <div className={styles.buttons}>
         <Button onClick={() => navigate('/login')} variant="primary">
-          Login
+          Вход
         </Button>
         <Button onClick={() => navigate('/register')} variant="secondary">
-          Register
+          Регистрация
         </Button>
       </div>
     </div>
