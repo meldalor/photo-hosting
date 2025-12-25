@@ -7,7 +7,6 @@ import { imageService } from '../../services/imageService'
 import { sessionService } from '../../services/sessionService'
 import '@testing-library/jest-dom'
 
-// Mock dependencies
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useParams: jest.fn(),

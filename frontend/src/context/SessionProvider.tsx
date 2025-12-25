@@ -3,11 +3,7 @@ import { useState, useEffect } from 'react'
 import { SessionContext } from './SessionContext'
 import { authService } from '../services/authService'
 import { sessionService } from '../services/sessionService'
-
-interface Session {
-  userId: number
-  email: string
-}
+import { Session } from '../types'
 
 interface SessionProviderProps {
   children: React.ReactNode
@@ -24,11 +20,7 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
   }, [])
 
   const login = async (email: string, password: string) => {
-    const user = await authService.login(email, password)
-
-    if (!user || !user.id) {
-      throw new Error('Неверный email или пароль')
-    }
+    const { user, token } = await authService.login(email, password)
 
     const newSession: Session = {
       userId: user.id,
@@ -36,20 +28,17 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
     }
 
     setSession(newSession)
-    sessionService.saveSession(newSession)
+    sessionService.saveToken(token)
   }
 
   const logout = () => {
     setSession(null)
+    authService.logout()
     sessionService.clearSession()
   }
 
   const register = async (email: string, password: string) => {
-    const user = await authService.register(email, password)
-
-    if (!user.id) {
-      throw new Error('Ошибка регистрации')
-    }
+    const { user, token } = await authService.register(email, password)
 
     const newSession: Session = {
       userId: user.id,
@@ -57,7 +46,7 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
     }
 
     setSession(newSession)
-    sessionService.saveSession(newSession)
+    sessionService.saveToken(token)
   }
 
   return (

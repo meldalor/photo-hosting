@@ -1,0 +1,72 @@
+
+
+.md3-circular-progress {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.md3-circular-progress__svg {
+  display: block;
+}
+
+.md3-circular-progress__circle-bg {
+  stroke: var(--md-sys-color-surface-variant);
+  opacity: 0.3;
+}
+
+.md3-circular-progress--primary .md3-circular-progress__circle {
+  stroke: var(--md-sys-color-primary);
+}
+
+.md3-circular-progress--secondary .md3-circular-progress__circle {
+  stroke: var(--md-sys-color-secondary);
+}
+
+.md3-circular-progress--error .md3-circular-progress__circle {
+  stroke: var(--md-sys-color-error);
+}
+
+.md3-circular-progress:not(.md3-circular-progress--determinate) .md3-circular-progress__svg {
+  animation: md3-circular-progress-rotate 1.4s linear infinite;
+}
+
+.md3-circular-progress:not(.md3-circular-progress--determinate) .md3-circular-progress__circle {
+  animation: md3-circular-progress-dash 1.4s ease-in-out infinite;
+}
+
+@keyframes md3-circular-progress-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes md3-circular-progress-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -15;
+  }
+  100% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -125;
+  }
+}
+
+.md3-circular-progress--determinate .md3-circular-progress__circle {
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .md3-circular-progress__svg {
+    animation: none;
+  }
+
+  .md3-circular-progress__circle {
+    animation: none;
+  }
+}

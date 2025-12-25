@@ -1,52 +1,55 @@
-import { db } from '../db'
-
-import type { Image } from '../db/types'
+import { imagesApi } from '../api/images.api'
+import { Image } from '../types'
 
 export const imageService = {
-  async uploadImage(userId: number, file: File): Promise<number | undefined> {
-    const dimensions = await this.getImageDimensions(file)
+  async uploadImage(file: File, isPublic: boolean = false, filename?: string): Promise<Image> {
+    const formData = new FormData()
 
-    const image: Image = {
-      userId,
-      file,
-      filename: file.name,
-      fileSize: file.size,
-      width: dimensions.width,
-      height: dimensions.height,
-      createdAt: new Date()
+    formData.append('image', file)
+    formData.append('isPublic', String(isPublic))
+
+    if (filename) {
+      formData.append('filename', filename)
     }
 
-    return await db.images.add(image)
+    return await imagesApi.upload(formData)
   },
 
-  async getImageDimensions(file: File): Promise<{ width: number; height: number }> {
-    return new Promise((resolve, reject) => {
-      const img = new Image()
-      const url = URL.createObjectURL(file)
-
-      img.onload = () => {
-        URL.revokeObjectURL(url)
-        resolve({ width: img.width, height: img.height })
-      }
-
-      img.onerror = () => {
-        URL.revokeObjectURL(url)
-        reject(new Error('Failed to load image'))
-      }
-
-      img.src = url
-    })
+  async getMyImages(isPublic?: boolean): Promise<Image[]> {
+    return await imagesApi.getMyImages(isPublic)
   },
 
-  async getImagesByUser(userId: number): Promise<Image[]> {
-    return await db.images.where('userId').equals(userId).toArray()
+  async getImageById(id: string): Promise<Image> {
+    return await imagesApi.getById(id)
   },
 
-  async deleteImage(imageId: number): Promise<void> {
-    await db.images.delete(imageId)
+  async updateImage(id: string, updates: { filename?: string; isPublic?: boolean }): Promise<Image> {
+    return await imagesApi.update(id, updates)
   },
 
-  async getImageById(imageId: number): Promise<Image | undefined> {
-    return await db.images.get(imageId)
+  async togglePublic(id: string, isPublic: boolean): Promise<Image> {
+    return await imagesApi.update(id, { isPublic })
+  },
+
+  async cropImage(id: string, cropData: { x: number; y: number; width: number; height: number }): Promise<Image> {
+    return await imagesApi.crop(id, cropData)
+  },
+
+  async deleteImage(id: string): Promise<void> {
+    return await imagesApi.delete(id)
+  },
+
+  getImageUrl(id: string, variant: 'thumbnail' | 'medium' | 'original' = 'medium'): string {
+    return imagesApi.getDownloadUrl(id, variant)
+  },
+
+  async downloadImageBlob(id: string, variant: 'thumbnail' | 'medium' | 'original' = 'medium'): Promise<string> {
+    const blob = await imagesApi.downloadImage(id, variant)
+
+    return URL.createObjectURL(blob)
+  },
+
+  async searchPublicImage(imageId: string): Promise<Image> {
+    return await imagesApi.searchPublic(imageId)
   }
 }

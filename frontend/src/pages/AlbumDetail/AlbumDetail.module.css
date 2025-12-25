@@ -1,0 +1,226 @@
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.error {
+  text-align: center;
+  padding: 40px;
+  color: #dc3545;
+}
+
+.albumHeader {
+  background: var(--md-sys-color-surface-container);
+  border: 2px solid var(--md-sys-color-outline-variant);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 30px;
+}
+
+.albumInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 2rem;
+  color: var(--md-sys-color-on-surface);
+  margin: 0;
+}
+
+.publicBadge {
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.description {
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 1rem;
+  margin: 12px 0;
+}
+
+.meta {
+  display: flex;
+  gap: 24px;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+}
+
+.headerActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.dangerButton {
+  color: var(--md-sys-color-error) !important;
+}
+
+.dangerButton:hover {
+  background-color: var(--md-sys-color-error-container) !important;
+}
+
+@media (max-width: 600px) {
+  .headerActions {
+    gap: 6px;
+  }
+}
+
+.editForm {
+  margin-bottom: 16px;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.addImageSection {
+  background: var(--md-sys-color-surface-container);
+  border: 2px solid var(--md-sys-color-outline-variant);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.addImageSection h3 {
+  margin: 0 0 16px 0;
+  color: var(--md-sys-color-on-surface);
+}
+
+.addImageForm {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.addImageForm .input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--md-sys-color-surface-container);
+  border: 2px solid var(--md-sys-color-outline-variant);
+  border-radius: 8px;
+}
+
+.emptyState p {
+  font-size: 1.125rem;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.addPhotoCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  aspect-ratio: 16 / 9;
+  min-height: 200px;
+  border: 3px dashed var(--md-sys-color-outline);
+  border-radius: var(--md-sys-shape-corner-large);
+  background-color: var(--md-sys-color-surface-container-lowest);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-large-size);
+  font-weight: var(--md-sys-typescale-body-large-weight);
+  user-select: none;
+}
+
+.addPhotoCard:hover {
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.addPhotoIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--md-sys-color-surface-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.addPhotoCard:hover .addPhotoIcon {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  transform: scale(1.1);
+}
+
+.addPhotoIcon .material-symbols-outlined {
+  font-size: 48px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .albumInfo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .addImageForm {
+    flex-direction: column;
+  }
+
+  .addImageForm .input {
+    width: 100%;
+  }
+}
